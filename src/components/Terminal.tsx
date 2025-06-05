@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"; 
 import { useEffect, useRef, useState } from "react";
 import { Terminal } from "@xterm/xterm";
 import "@xterm/xterm/css/xterm.css";
@@ -35,15 +35,13 @@ export default function TerminalComponent() {
       cols: 80,
       convertEol: true,
     });
-
     t.open(terminalRef.current!);
     renderBuffer(t);
     t.write("\r\nWelcome, Agent. Press 'i' to enter INSERT mode.\r\n");
     t.focus();
 
     t.onData((key) => {
-      console.log("Pressed:", key); // ✅ Debug log
-
+        console.log("Pressed:", key);
       if (mode === "insert") {
         if (key === "\x1b") {
           setMode("normal");
@@ -76,7 +74,6 @@ export default function TerminalComponent() {
 
   const renderBuffer = (t: Terminal) => {
     t.reset();
-
     buffer.forEach((line, i) => {
       if (i === cursorPos.row) {
         const before = line.slice(0, cursorPos.col);
@@ -87,9 +84,7 @@ export default function TerminalComponent() {
         t.write(line + "\r\n");
       }
     });
-
-    // Add a newline so cursor input isn’t jammed at bottom
-    t.write("\r\n");
+    
   };
 
   const handleCommand = (cmd: string, t: Terminal) => {
@@ -136,4 +131,5 @@ export default function TerminalComponent() {
   };
 
   return <div ref={terminalRef} style={{ height: "100vh", width: "100%" }} />;
+
 }
