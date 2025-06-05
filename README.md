@@ -1,4 +1,4 @@
-# stealthedit
+## stealthedit
 Vim gamified
 
 
