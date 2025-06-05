@@ -18,7 +18,7 @@ let buffer = [
   "Guard => G",
   "Terminal = T",
   "@        T",
-  "       G   E",
+  "          E",
 ];
 
 let cursorPos = { row: 2, col: 0 };
