@@ -41,6 +41,7 @@ export default function TerminalComponent() {
     t.focus();
 
     t.onData((key) => {
+    console.log("Pressed:", key);
       if (mode === "insert") {
         if (key === "\x1b") {
           setMode("normal");
@@ -74,8 +75,16 @@ export default function TerminalComponent() {
   const renderBuffer = (t: Terminal) => {
     t.reset();
     buffer.forEach((line, i) => {
-      t.write(i === cursorPos.row ? line.slice(0, cursorPos.col) + "_" + line.slice(cursorPos.col) + "\r\n" : line + "\r\n");
+      if (i === cursorPos.row) {
+        const before = line.slice(0, cursorPos.col);
+        const at = line[cursorPos.col] || " ";
+        const after = line.slice(cursorPos.col + 1);
+        t.write(`${before}\x1b[7m${at}\x1b[0m${after}\r\n`);
+      } else {
+        t.write(line + "\r\n");
+      }
     });
+    
   };
 
   const handleCommand = (cmd: string, t: Terminal) => {
@@ -122,4 +131,5 @@ export default function TerminalComponent() {
   };
 
   return <div ref={terminalRef} style={{ height: "100vh", width: "100%" }} />;
+
 }
